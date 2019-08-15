@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from'body-parser';
 import {serverPort} from './etc/config.json';
+import fs from 'fs';
 
 import * as db from './utils/DateBaseUtils';
 
@@ -26,9 +27,15 @@ app.use(function (req, res, next) {
 app.get('/kufar', (req, res) => {
   db.listProducts().then(data => res.send(data));
 });
-//
+
 app.post('/kufar', (req, res) => {
   db.createProducts(req.body).then(data => res.send(data));
+});
+
+app.get('/images/:fileName', (req, res) =>{
+  fs.readFile(`images/${req.params.fileName}`, (err, data) => {
+    res.send(data);
+  })
 });
 
 const server = app.listen(serverPort, () => {
