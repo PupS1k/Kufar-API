@@ -38,6 +38,15 @@ app.get('/images/:fileName', (req, res) =>{
   })
 });
 
+app.post('/login', (req, res) => {
+  db.logInUser(req.body).then(data => res.send(data))
+});
+
+
+app.post('/registration', (req, res) => {
+  db.registrationUser(req.body).then(data => res.send(data))
+});
+
 const server = app.listen(serverPort, () => {
   console.log(`Server: ${serverPort}`);
 });
