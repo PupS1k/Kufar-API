@@ -1,24 +1,18 @@
-import mongoose from 'mongoose';
-import '../models/Product';
-import '../models/User';
+const mongoose = require('mongoose');
+require('../models/Product');
+require('../models/User');
 
-import config from '../etc/config';
+const config = require('../etc/config');
 
 const User = mongoose.model('User');
 
 const Product = mongoose.model('Product');
 
-export function setUpConnection() {
+function setUpConnection() {
   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 }
 
-export function asyncValidateLogin(data) {
-  return User.find(data)
-      .then(res => res.length === 0)
-      .catch(err => console.log(err));
-}
-
-export function registrationUser(data) {
+function registrationUser(data) {
   const user = new User({
     mail: data.mail,
     password: data.password,
@@ -34,22 +28,22 @@ export function registrationUser(data) {
       .catch(err => console.log(err));
 }
 
-export function logInUser(data) {
+function logInUser(data) {
   return User.find(data)
       .then(res => res.length === 0 ? true : res[0])
       .catch(err => console.log(err));
 }
 
 
-export function listProducts(){
+function listProducts(){
   return Product.find();
 }
 
-export function deleteAll() {
+function deleteAll() {
   return Product.remove();
 }
 
-export function createProducts(data) {
+function createProducts(data) {
   const product = new Product({
     image: data.image,
     name: data.name,
@@ -67,8 +61,11 @@ export function createProducts(data) {
   return product.save();
 }
 
-
-
-// export function goLink(id) {
-//   return Product.findById(id);
-// }
+module.exports = {
+  logInUser,
+  listProducts,
+  setUpConnection,
+  deleteAll,
+  registrationUser,
+  createProducts
+};

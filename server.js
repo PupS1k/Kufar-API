@@ -1,9 +1,8 @@
-import express from 'express';
-import bodyParser from'body-parser';
-import {serverPort} from './etc/config.json';
-import fs from 'fs';
-
-import * as db from './utils/DateBaseUtils';
+const express = require('express');
+const bodyParser = require('body-parser');
+const {serverPort} = require('./etc/config.json');
+const fs = require('fs');
+const db = require( './utils/DateBaseUtils');
 
 // import * as fsDb from './fileSystem/FsUtils';
 
