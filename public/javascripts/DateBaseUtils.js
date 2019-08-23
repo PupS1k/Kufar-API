@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-require('../models/Product');
-require('../models/User');
+require('./models/Product');
+require('./models/User');
 
-const config = require('../etc/config');
+const config = require('./etc/config');
 
 const User = mongoose.model('User');
 
