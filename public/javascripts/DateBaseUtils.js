@@ -12,7 +12,7 @@ function setUpConnection() {
   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 }
 
-function registrationUser(data) {
+function signUpUser(data) {
   const user = new User({
     mail: data.mail,
     password: data.password,
@@ -28,7 +28,7 @@ function registrationUser(data) {
       .catch(err => console.log(err));
 }
 
-function logInUser(data) {
+function getUser(data) {
   return User.find(data)
       .then(res => res.length === 0 ? true : res[0])
       .catch(err => console.log(err));
@@ -62,10 +62,10 @@ function createProducts(data) {
 }
 
 module.exports = {
-  logInUser,
+  getUser,
   listProducts,
   setUpConnection,
   deleteAll,
-  registrationUser,
+  signUpUser,
   createProducts
 };

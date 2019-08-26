@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes');
 var productsRouter = require('./routes/products');
 var loginRouter = require('./routes/login');
 var registrationRouter = require('./routes/registration');
@@ -16,9 +15,6 @@ const db = require( './public/javascripts/DateBaseUtils');
 
 db.setUpConnection();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,10 +29,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/', indexRouter);
-app.use('/', productsRouter);
-app.use('/', loginRouter);
-app.use('/', registrationRouter);
+app.use('/products', productsRouter);
+app.use('/login', loginRouter);
+app.use('/registration', registrationRouter);
 app.use('/images', imagesRouter);
 
 // catch 404 and forward to error handler

@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 const db = require( '../public/javascripts/DateBaseUtils');
 
-router.get('/kufar', (req, res) => {
-  console.log('tut');
+router.get('/', (req, res) => {
   db.listProducts().then(data => res.send(data));
 });
 
-router.post('/kufar', (req, res) => {
+router.post('/', (req, res) => {
   db.createProducts(req.body).then(data => res.send(data));
 });
 
