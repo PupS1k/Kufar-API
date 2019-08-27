@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const db = require( '../public/javascripts/DateBaseUtils');
+const db = require( './dbMethods');
 
 router.post('/', (req, res) => {
   db.signUpUser(req.body).then(data => res.send(data))

@@ -11,7 +11,7 @@ var imagesRouter = require('./routes/images');
 
 var app = express();
 
-const db = require( './public/javascripts/DateBaseUtils');
+const db = require( './routes/dbMethods');
 
 db.setUpConnection();
 

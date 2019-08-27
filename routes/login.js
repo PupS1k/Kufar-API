@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
-const db = require( '../public/javascripts/DateBaseUtils');
+const db = require('./dbMethods');
 
-router.post('/', (req, res) => {
-  db.getUser(req.body).then(data => res.send(data))
+router.get('/:mail/:password', (req, res) => {
+    db.getUser({
+        mail: req.params.mail,
+        password: req.params.password
+    }).then(data => res.send(data))
 });
 
 module.exports = router;

@@ -1,26 +1,21 @@
 const mongoose = require('mongoose');
-require('./models/Product');
-require('./models/User');
+const Product = require('./models/Product');
+const User = require('./models/User');
 
-const config = require('./etc/config');
-
-const User = mongoose.model('User');
-
-const Product = mongoose.model('Product');
+const config = require('../etc/config');
 
 function setUpConnection() {
   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 }
-
 function signUpUser(data) {
-  const user = new User({
-    mail: data.mail,
-    password: data.password,
-    seller: data.seller
-  });
   return User.find({mail: data.mail})
       .then(res => {
-        if(res.length === 0) {
+        if(res.length) {
+          const user = new User({
+            mail: data.mail,
+            password: data.password,
+            seller: data.seller
+          });
           user.save();
           return false;
         }else return true;
@@ -30,7 +25,7 @@ function signUpUser(data) {
 
 function getUser(data) {
   return User.find(data)
-      .then(res => res.length === 0 ? true : res[0])
+      .then(res => res.length ? false : res[0])
       .catch(err => console.log(err));
 }
 
@@ -57,7 +52,6 @@ function createProducts(data) {
     location: data.location,
     announced: data.announced
   });
-
   return product.save();
 }
 

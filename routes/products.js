@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const db = require( '../public/javascripts/DateBaseUtils');
+const db = require( './dbMethods');
 
 router.get('/', (req, res) => {
   db.listProducts().then(data => res.send(data));
