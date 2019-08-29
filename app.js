@@ -11,9 +11,9 @@ var imagesRouter = require('./routes/images');
 
 var app = express();
 
-const db = require( './routes/dbMethods');
+const setUpConnection = require( './routes/dbConnect');
 
-db.setUpConnection();
+setUpConnection();
 
 
 app.use(logger('dev'));

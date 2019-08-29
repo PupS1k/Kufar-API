@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-const db = require( './dbMethods');
+const db = require( './dbUserMethods');
 
 router.post('/', (req, res) => {
-  db.signUpUser(req.body).then(data => res.send(data))
+  db.findUser(req.body).then(data => res.send(data))
 });
 
 module.exports = router;
