@@ -28,6 +28,10 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
+app.use('/login', function (req, res, next) {
+  res.header("Access-Control-Allow-Headers", "Authorization");
+  next();
+});
 
 app.use('/products', productsRouter);
 app.use('/login', loginRouter);

@@ -3,8 +3,10 @@ var router = express.Router();
 
 const db = require('./dbUserMethods');
 
-router.post('/', (req, res) => {
-    db.getUser(req.body).then(data => res.send(data))
+router.get('/', (req, res) => {
+    const buff = new Buffer.from(req.headers.authorization, 'base64');
+    const data = buff.toString('ascii').split(':');
+    db.getUser({mail: data[0], password: data[1]}).then(data => res.send(data))
 });
 
 module.exports = router;
