@@ -4,7 +4,8 @@ var fs = require('fs');
 
 router.get('/:fileName', (req, res) =>{
   fs.readFile(`public/images/${req.params.fileName}`, (err, data) => {
-    res.send(data);
+    if(err) return res.status(400).send('Error reading file');
+    res.status(200).send(data);
   })
 });
 

@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var productsRouter = require('./routes/products');
 var loginRouter = require('./routes/login');
 var registrationRouter = require('./routes/registration');
@@ -11,7 +12,7 @@ var imagesRouter = require('./routes/images');
 
 var app = express();
 
-const setUpConnection = require( './routes/dbConnect');
+const setUpConnection = require( './routes/connectMongo');
 
 setUpConnection();
 

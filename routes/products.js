@@ -1,13 +1,36 @@
 var express = require('express');
 var router = express.Router();
-const db = require( './dbProductMethods');
+
+const Product = require('./models/Product');
 
 router.get('/', (req, res) => {
-  db.listProducts().then(data => res.send(data));
+  const products = Product.find();
+  if(!products) res.status(400).send('Products is not exists');
+
+  res.send(products);
 });
 
 router.post('/', (req, res) => {
-  db.createProducts(req.body).then(data => res.send(data));
+  const product = new Product({
+    image: req.body.image,
+    name: req.body.name,
+    categories: req.body.categories,
+    state: req.body.state,
+    seller: req.body.seller,
+    fashionableSummer: req.body.fashionableSummer,
+    installmentHalva: req.body.installmentHalva,
+    isExchange: req.body.isExchange,
+    price: req.body.price,
+    location: req.body.location,
+    announced: req.body.announced
+  });
+
+  try{
+    product.save();
+    res.send({product: product._id});
+  }catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 module.exports = router;
