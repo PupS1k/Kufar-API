@@ -4,10 +4,15 @@ var router = express.Router();
 const Product = require('./models/Product');
 
 router.get('/', (req, res) => {
-  const products = Product.find();
-  if(!products) res.status(400).send('Products is not exists');
+  Product.find().then(products => {
+    if(!products) res.status(400).send('Products is not exists');
+    res.send(products);
+  });
+});
 
-  res.send(products);
+router.delete('/', (req, res, next) => {
+  Product.deleteOne(req.body);
+  res.sendStatus(200);
 });
 
 router.post('/', (req, res) => {
@@ -26,8 +31,7 @@ router.post('/', (req, res) => {
   });
 
   try{
-    product.save();
-    res.send({product: product._id});
+    product.save().then(product => res.send({_id: product._id}));
   }catch (err) {
     res.status(400).send(err);
   }
