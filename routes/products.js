@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const verify = require('./verifyToken');
 const Product = require('./models/Product');
 
 router.get('/', (req, res) => {
@@ -10,12 +11,12 @@ router.get('/', (req, res) => {
   });
 });
 
-router.delete('/', (req, res, next) => {
+router.delete('/', verify, (req, res) => {
   Product.deleteOne(req.body);
   res.sendStatus(200);
 });
 
-router.post('/', (req, res) => {
+router.post('/', verify, (req, res) => {
   const product = new Product({
     image: req.body.image,
     name: req.body.name,
