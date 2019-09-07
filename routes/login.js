@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const verify = require('./verifyToken');
+const moment = require('moment');
+const config = require('../etc/config');
 const User = require('./models/User');
 
 router.post('/', (req, res) => {
@@ -10,8 +12,17 @@ router.post('/', (req, res) => {
         .then(user =>{
             if(!user) return res.status(400).send('Email or password is wrong');
 
-            const token = jwt.sign(user, 'KEY_TOKEN');
-            res.header('auth-token', token).send(token);
+            const date = new Date();
+            date.setHours(date.getHours()+24);
+
+            const token = jwt.sign({
+                _id: user._id,
+                mail: user.mail,
+                password: user.password,
+                sellerStatus: user.sellerStatus,
+                exp: moment(date).unix()
+            }, config.secretKey);
+            res.send(token);
         });
 });
 

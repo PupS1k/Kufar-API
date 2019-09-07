@@ -25,12 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin");
+      "Origin, X-Requested-With, Content-Type, Accept, auth-token, Access-Control-Allow-Origin");
   res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
-app.use('/login', function (req, res, next) {
-  res.header("Access-Control-Allow-Headers", "Authorization");
   next();
 });
 

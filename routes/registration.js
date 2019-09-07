@@ -4,8 +4,11 @@ var router = express.Router();
 const User = require('./models/User');
 
 router.post('/', (req, res) => {
-    const emailExist = User.find({mail: data.mail});
-    if (!emailExist) return res.status(400).send('Email already exists');
+    User.find({mail: data.mail})
+        .then(users => users[0])
+        .then(emailExist => {
+        if (emailExist) return res.status(400).send('Email already exists');
+    });
 
     const user = new User({
         mail: req.body.mail,
