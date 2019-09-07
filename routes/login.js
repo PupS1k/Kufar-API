@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
                 sellerStatus: user.sellerStatus,
                 exp: moment(date).unix()
             }, config.secretKey);
-            res.send(token);
+            res.send(JSON.stringify(token));
         });
 });
 
