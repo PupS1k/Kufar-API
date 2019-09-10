@@ -13,7 +13,8 @@ const ProductSchema = new Schema({
   isExchange: {type: Boolean},
   price: {type: String},
   location: {type: String},
-  announced: {type: String}
+  announced: {type: String},
+  creatorId: {type: String}
 });
 
 const Product = mongoose.model('Product', ProductSchema);
