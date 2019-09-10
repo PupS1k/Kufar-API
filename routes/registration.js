@@ -3,7 +3,7 @@ var router = express.Router();
 
 const User = require('./models/User');
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     User.find({mail: data.mail})
         .then(users => users[0])
         .then(emailExist => {
@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
         user.save();
         res.send({user: user._id});
     } catch (err) {
-        res.status(400).send(err);
+        next(err);
     }
 });
 

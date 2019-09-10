@@ -46,8 +46,7 @@ router.post('/', verify, (req, res) => {
     creatorId: req.user._id
   });
   try{
-    res.send();
-    //product.save().then(product => res.send({_id: product._id}));
+    product.save().then(product => res.send({_id: product._id}));
   }catch (err) {
     res.status(400).send(err);
   }
