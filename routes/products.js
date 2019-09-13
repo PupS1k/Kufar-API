@@ -22,9 +22,10 @@ router.get('/', (req, res) => {
   });
 });
 
-router.delete('/', verify, (req, res) => {
-  Product.deleteOne(req.body);
-  res.sendStatus(200);
+router.delete('/:id', verify, (req, res) => {
+  const id = req.params.id;
+  Product.deleteOne({_id: id}).then(err => console.log(err));
+  res.send({id});
 });
 
 router.post('/image', verify, upload.single('file'), (req, res) =>{
@@ -42,7 +43,7 @@ router.post('/', verify, (req, res) => {
     isExchange: req.body.isExchange,
     price: req.body.price,
     location: req.body.location,
-    announced: new Date(),
+    announced: req.body.announced,
     creatorId: req.user._id
   });
   try{

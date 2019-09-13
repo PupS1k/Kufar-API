@@ -5,6 +5,7 @@ const verify = require('./verifyToken');
 const moment = require('moment');
 const config = require('../etc/config');
 const User = require('./models/User');
+const Product = require('./models/Product');
 
 router.post('/', (req, res) => {
     User.find({mail: req.body.mail, password: req.body.password})
@@ -27,7 +28,10 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', verify, (req, res) => {
-    res.send(req.user);
+    Product.find({creatorId: req.user._id})
+        .then(products => {
+            res.send({...req.user, products});
+        });
 });
 
 module.exports = router;
