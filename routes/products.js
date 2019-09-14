@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+const fs = require('fs');
 const multer = require('multer');
 
 const verify = require('./verifyToken');
@@ -10,26 +10,35 @@ const Product = require('./models/Product');
 const storage = multer.diskStorage({
   destination: './public/images',
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, req.params.id);
   }
 });
+
 const upload = multer({storage: storage});
 
-router.get('/', (req, res) => {
-  Product.find().then(products => {
-    if(!products) res.status(400).send('Products is not exists');
+router.get('/', async(req, res, next) => {
+  try {
+    const products = await Product.find();
+    if (!products) res.status(400).send('Products is not exists');
     res.send(products);
-  });
+  }catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', verify, (req, res) => {
-  const id = req.params.id;
-  Product.deleteOne({_id: id}).then(err => console.log(err));
-  res.send({id});
+router.delete('/:id', verify, async(req, res, next) => {
+  try {
+    const product = await Product.findOne({_id: req.params.id});
+    fs.unlink(`./public/images/${product.image}`, err => console.error(err));
+    Product.deleteOne({_id: product._id});
+    res.send({id});
+  }catch (err) {
+    next(err);
+  }
 });
 
-router.post('/image', verify, upload.single('file'), (req, res) =>{
-  res.send(JSON.stringify(req.file.filename));
+router.post('/image/:id', verify, upload.single('file'), (req, res) =>{
+  res.send(JSON.stringify(req.params.id));
 });
 
 router.post('/', verify, (req, res) => {
@@ -38,6 +47,7 @@ router.post('/', verify, (req, res) => {
     name: req.body.name,
     categories: req.body.categories,
     state: req.body.state,
+    seller: req.user.sellerStatus,
     fashionableSummer: req.body.fashionableSummer,
     installmentHalva: req.body.installmentHalva,
     isExchange: req.body.isExchange,
@@ -47,7 +57,7 @@ router.post('/', verify, (req, res) => {
     creatorId: req.user._id
   });
   try{
-    product.save().then(product => res.send({_id: product._id}));
+    product.save().then(product => res.send({id: product._id, seller: product.seller}));
   }catch (err) {
     res.status(400).send(err);
   }

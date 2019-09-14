@@ -3,22 +3,19 @@ var router = express.Router();
 
 const User = require('./models/User');
 
-router.post('/', (req, res, next) => {
-    User.find({mail: data.mail})
-        .then(users => users[0])
-        .then(emailExist => {
-        if (emailExist) return res.status(400).send('Email already exists');
-    });
-
-    const user = new User({
-        mail: req.body.mail,
-        password: req.body.password,
-        seller: req.body.seller
-    });
-
+router.post('/', async(req, res, next) => {
     try {
+        const emailExist = await User.find({mail: req.body.mail});
+        if (emailExist.length) return res.send({message: 'Аккаунт с таким email уже существует'});
+
+        const user = new User({
+            mail: req.body.mail,
+            password: req.body.password,
+            sellerStatus: req.body.seller
+        });
+
         user.save();
-        res.send({user: user._id});
+        res.send({message: ''});
     } catch (err) {
         next(err);
     }

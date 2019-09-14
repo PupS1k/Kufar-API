@@ -7,31 +7,37 @@ const config = require('../etc/config');
 const User = require('./models/User');
 const Product = require('./models/Product');
 
-router.post('/', (req, res) => {
-    User.find({mail: req.body.mail, password: req.body.password})
-        .then(users => users[0])
-        .then(user =>{
-            if(!user) return res.status(400).send('Email or password is wrong');
+router.post('/', async(req, res, next) => {
+    try {
+        const user = await User.find({mail: req.body.mail, password: req.body.password})
+            .then(users => users[0]);
+        if (!user) return res.status(400).send('Email or password is wrong');
 
-            const date = new Date();
-            date.setHours(date.getHours()+24);
+        const date = new Date();
+        date.setHours(date.getHours() + 24);
 
-            const token = jwt.sign({
-                _id: user._id,
-                mail: user.mail,
-                password: user.password,
-                sellerStatus: user.sellerStatus,
-                exp: moment(date).unix()
-            }, config.secretKey);
-            res.send(JSON.stringify(token));
-        });
+        const token = jwt.sign({
+            _id: user._id,
+            mail: user.mail,
+            password: user.password,
+            sellerStatus: user.sellerStatus,
+            exp: moment(date).unix()
+        }, config.secretKey);
+        res.send(JSON.stringify(token));
+    }catch (err) {
+        next(err);
+    }
 });
 
-router.get('/', verify, (req, res) => {
-    Product.find({creatorId: req.user._id})
-        .then(products => {
-            res.send({...req.user, products});
-        });
+router.get('/', verify, (req, res, next) => {
+    try {
+        Product.find({creatorId: req.user._id})
+            .then(products => {
+                res.send({...req.user, products});
+            });
+    }catch (err) {
+        next(err);
+    }
 });
 
 module.exports = router;
