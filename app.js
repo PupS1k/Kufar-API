@@ -35,11 +35,6 @@ app.use('/login', loginRouter);
 app.use('/registration', registrationRouter);
 app.use('/images', imagesRouter);
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

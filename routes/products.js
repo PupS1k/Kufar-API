@@ -41,7 +41,7 @@ router.post('/image/:id', verify, upload.single('file'), (req, res) =>{
   res.send(JSON.stringify(req.params.id));
 });
 
-router.post('/', verify, (req, res) => {
+router.post('/', verify, (req, res, next) => {
   const product = new Product({
     image: req.body.image,
     name: req.body.name,
@@ -59,7 +59,7 @@ router.post('/', verify, (req, res) => {
   try{
     product.save().then(product => res.send({id: product._id, seller: product.seller}));
   }catch (err) {
-    res.status(400).send(err);
+    next(err)
   }
 });
 
