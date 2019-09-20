@@ -29,9 +29,9 @@ router.get('/', async(req, res, next) => {
 router.delete('/:id', verify, async(req, res, next) => {
   try {
     const product = await Product.findOne({_id: req.params.id});
-    // if(product.image)
-    //   fs.unlink(`./public/images/${product.image}`, err => console.error(err));
-    Product.deleteOne(product).then(err => console.log(err));
+    if(product.image)
+      fs.unlink(`./public/images/${product.image}`, err => console.error(err));
+    Product.deleteOne(product).then(res => console.log(res));
     res.send({id: req.params.id});
   }catch (err) {
     next(err);
