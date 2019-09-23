@@ -17,7 +17,7 @@ router.post('/', async(req, res, next) => {
         date.setHours(date.getHours() + 24);
 
         const token = jwt.sign({
-            _id: user._id,
+            id: user._id,
             mail: user.mail,
             password: user.password,
             sellerStatus: user.sellerStatus,
@@ -31,7 +31,7 @@ router.post('/', async(req, res, next) => {
 
 router.get('/', verify, (req, res, next) => {
     try {
-        Product.find({creatorId: req.user._id})
+        Product.find({creatorId: req.user.id})
             .then(products => {
                 res.send({...req.user, products});
             });

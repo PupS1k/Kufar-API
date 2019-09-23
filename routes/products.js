@@ -55,7 +55,7 @@ router.post('/', verify, (req, res, next) => {
     price: req.body.price,
     location: req.body.location,
     announced: req.body.announced,
-    creatorId: req.user._id
+    creatorId: req.user.id
   });
   try{
     product.save().then(product => res.send({id: product._id, seller: product.seller}));

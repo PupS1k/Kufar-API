@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
   try{
       const dataToken = jwt.verify(token,  config.secretKey);
       req.user = {
-          _id: dataToken._id,
+          id: dataToken.id,
           mail: dataToken.mail,
           password: dataToken.password,
           sellerStatus: dataToken.sellerStatus,
