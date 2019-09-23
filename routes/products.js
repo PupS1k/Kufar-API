@@ -10,7 +10,7 @@ const Product = require('./models/Product');
 const storage = multer.diskStorage({
   destination: './public/images',
   filename: function (req, file, cb) {
-    cb(null, req.params.id);
+    cb(null, `image_${req.params.id}`);
   }
 });
 
@@ -39,7 +39,7 @@ router.delete('/:id', verify, async(req, res, next) => {
 });
 
 router.post('/image/:id', verify, upload.single('file'), (req, res) =>{
-  res.send(JSON.stringify(req.params.id));
+  res.send(JSON.stringify(`image_${req.params.id}`));
 });
 
 router.post('/', verify, (req, res, next) => {
