@@ -6,7 +6,6 @@ const multer = require('multer');
 const verify = require('./verifyToken');
 const Product = require('./models/Product');
 
-
 const storage = multer.diskStorage({
   destination: './public/images',
   filename: function (req, file, cb) {

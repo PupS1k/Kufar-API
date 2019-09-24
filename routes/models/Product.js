@@ -17,6 +17,14 @@ const ProductSchema = new Schema({
   creatorId: {type: String}
 });
 
+ProductSchema.set('toJSON', {
+  transform : (doc, result) => {
+    const product = {...result, id : result._id};
+    delete product['_id'];
+    return product;
+  }
+});
+
 const Product = mongoose.model('Product', ProductSchema);
 
 module.exports = Product;

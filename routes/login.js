@@ -7,6 +7,7 @@ const config = require('../etc/config');
 const User = require('./models/User');
 const Product = require('./models/Product');
 
+
 router.post('/', async(req, res, next) => {
     try {
         const user = await User.find({mail: req.body.mail, password: req.body.password})
@@ -29,12 +30,10 @@ router.post('/', async(req, res, next) => {
     }
 });
 
-router.get('/', verify, (req, res, next) => {
+router.get('/', verify, async(req, res, next) => {
     try {
-        Product.find({creatorId: req.user.id})
-            .then(products => {
-                res.send({...req.user, products});
-            });
+        const products = await Product.find({creatorId: req.user.id});
+        res.send({...req.user, products});
     }catch (err) {
         next(err);
     }
