@@ -19,10 +19,9 @@ const ProductSchema = new Schema({
 
 ProductSchema.set('toJSON', {
 	transform: (doc, result) => {
-		const product = {...result, id: result._id}
-		delete product['_id']
-		return product
+		const {_id: id, ...prop} = result
+		return {...prop, id}
 	}
 })
 
-module.exports =  mongoose.model('Product', ProductSchema)
+module.exports = mongoose.model('Product', ProductSchema)
