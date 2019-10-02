@@ -22,7 +22,7 @@ router.post('/', async(req, res, next) => {
             mail: user.mail,
             password: user.password,
             sellerStatus: user.sellerStatus,
-            exp: moment(date).unix()
+            exp: Date.parse(date)
         }, config.secretKey);
         res.send(JSON.stringify(token));
     }catch (err) {
