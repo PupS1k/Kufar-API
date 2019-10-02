@@ -8,10 +8,9 @@ const productsRouter = require('./routes/products');
 const loginRouter = require('./routes/login');
 const registrationRouter = require('./routes/registration');
 const imagesRouter = require('./routes/images');
+const setUpConnection = require( './db/connectMongo');
 
 const app = express();
-
-const setUpConnection = require( './routes/connectMongo');
 
 setUpConnection();
 

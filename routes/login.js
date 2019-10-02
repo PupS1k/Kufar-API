@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const verify = require('./verifyToken');
+const verify = require('../middlewares/verifyToken');
 const moment = require('moment');
 const config = require('../config');
-const User = require('./models/User');
-const Product = require('./models/Product');
+const User = require('../db/models/User');
+const Product = require('../db/models/Product');
 
 
 router.post('/', async(req, res, next) => {
