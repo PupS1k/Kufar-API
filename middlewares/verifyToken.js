@@ -1,20 +1,20 @@
-const jwt = require('jsonwebtoken');
-const config = require('../config');
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 module.exports = function (req, res, next) {
-  const token = req.header('auth-token');
-  if(!token) return res.status(401).send('Access Denied');
+	const token = req.header('auth-token')
+	if (!token) return res.status(401).send('Access Denied')
 
-  try{
-      const dataToken = jwt.verify(token,  config.secretKey);
-      req.user = {
-          id: dataToken.id,
-          mail: dataToken.mail,
-          password: dataToken.password,
-          sellerStatus: dataToken.sellerStatus,
-      };
-      next();
-  }catch (err) {
-      res.status(400).send('Invalid token');
-  }
-};
+	try {
+		const dataToken = jwt.verify(token, config.secretKey)
+		req.user = {
+			id: dataToken.id,
+			mail: dataToken.mail,
+			password: dataToken.password,
+			sellerStatus: dataToken.sellerStatus,
+		}
+		next()
+	} catch (err) {
+		res.status(400).send('Invalid token')
+	}
+}
