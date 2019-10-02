@@ -13,7 +13,7 @@ const ProductSchema = new Schema({
 	isExchange: {type: Boolean},
 	price: {type: String},
 	location: {type: String},
-	announced: {type: String},
+	announced: {type: Date, default: Date.now},
 	creatorId: {type: String}
 })
 
