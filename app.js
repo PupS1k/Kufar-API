@@ -1,15 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var productsRouter = require('./routes/products');
-var loginRouter = require('./routes/login');
-var registrationRouter = require('./routes/registration');
-var imagesRouter = require('./routes/images');
+const productsRouter = require('./routes/products');
+const loginRouter = require('./routes/login');
+const registrationRouter = require('./routes/registration');
+const imagesRouter = require('./routes/images');
 
-var app = express();
+const app = express();
 
 const setUpConnection = require( './routes/connectMongo');
 
