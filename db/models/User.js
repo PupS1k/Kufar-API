@@ -8,6 +8,4 @@ const UserSchema = new Schema({
 	sellerStatus: {type: String}
 })
 
-const User = mongoose.model('User', UserSchema)
-
-module.exports = User
+module.exports = mongoose.model('User', UserSchema)
