@@ -3,7 +3,7 @@ const router = express.Router()
 const fs = require('fs')
 const multer = require('multer')
 
-const verify = require('../middlewares/verifyToken')
+const verifyToken = require('../middlewares/verifyToken')
 const Product = require('../db/models/Product')
 
 const storage = multer.diskStorage({
@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
 	}
 })
 
-router.delete('/:id', verify, async (req, res, next) => {
+router.delete('/:id', verifyToken, async (req, res, next) => {
 	try {
 		const product = await Product.findOne({_id: req.params.id})
 		if (product.image) {
@@ -37,11 +37,11 @@ router.delete('/:id', verify, async (req, res, next) => {
 	}
 })
 
-router.post('/image/:id', verify, upload.single('file'), (req, res) => {
+router.post('/image/:id', verifyToken, upload.single('file'), (req, res) => {
 	res.send(JSON.stringify(`image_${req.params.id}`))
 })
 
-router.post('/', verify, (req, res, next) => {
+router.post('/', verifyToken, (req, res, next) => {
 	const product = new Product({
 		image: req.body.image,
 		name: req.body.name,

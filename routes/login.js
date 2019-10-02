@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
-const verify = require('../middlewares/verifyToken')
+const verifyToken = require('../middlewares/verifyToken')
 const config = require('../config')
 const User = require('../db/models/User')
 const Product = require('../db/models/Product')
@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
 	}
 })
 
-router.get('/', verify, async (req, res, next) => {
+router.get('/', verifyToken, async (req, res, next) => {
 	try {
 		const products = await Product.find({creatorId: req.user.id})
 		res.send({...req.user, products})
