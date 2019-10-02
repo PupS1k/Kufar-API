@@ -3,7 +3,7 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const verify = require('./verifyToken');
 const moment = require('moment');
-const config = require('../etc/config');
+const config = require('../config');
 const User = require('./models/User');
 const Product = require('./models/Product');
 
