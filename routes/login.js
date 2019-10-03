@@ -6,7 +6,6 @@ const createToken = async (req, res, next) => {
 	try {
 		const user = await User.find({mail: req.body.mail, password: req.body.password})
 	  		.then(users => users[0])
-	  console.log(user)
 		if (!user) return res.status(400).send('Email or password is wrong')
 
 		const date = new Date()
@@ -19,18 +18,15 @@ const createToken = async (req, res, next) => {
 		  	sellerType: user.sellerType,
 			exp: Date.parse(date)
 		}, config.secretKey)
-		res.send(JSON.stringify(token))
+		res.send({
+			token,
+			id: user._id,
+			mail: user.mail,
+			sellerType: user.sellerType
+		})
 	} catch (err) {
 		next(err)
 	}
 }
 
-const sendUserInfo = async (req, res, next) => {
-	try {
-		res.send({...req.user})
-	} catch (err) {
-		next(err)
-	}
-}
-
-module.exports = {createToken, sendUserInfo}
+module.exports = {createToken}

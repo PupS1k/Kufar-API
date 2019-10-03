@@ -5,7 +5,7 @@ const multer = require('multer')
 
 const sendImage = require('./images')
 const createUser = require('./registration')
-const {createToken, sendUserInfo} = require('./login')
+const {createToken} = require('./login')
 const {sendProducts, deleteProduct, createProduct, saveImage, getProductByCreatorId} = require('./products')
 
 const storage = multer.diskStorage({
@@ -20,7 +20,6 @@ const upload = multer({storage: storage})
 router.get('/images/:fileName', sendImage)
 
 router.post('/login', createToken)
-router.get('/login', verifyToken, sendUserInfo)
 
 router.get('/products/user/:id', verifyToken, getProductByCreatorId)
 router.get('/products', sendProducts)
