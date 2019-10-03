@@ -1,9 +1,6 @@
-const express = require('express')
-const router = express.Router()
-
 const User = require('../db/models/User')
 
-router.post('/', async (req, res, next) => {
+module.exports = async (req, res, next) => {
 	try {
 		const emailExist = await User.find({mail: req.body.mail})
 		if (emailExist.length) return res.send({message: 'Аккаунт с таким email уже существует'})
@@ -19,6 +16,4 @@ router.post('/', async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
-})
-
-module.exports = router
+}

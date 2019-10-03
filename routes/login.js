@@ -1,13 +1,10 @@
-const express = require('express')
-const router = express.Router()
 const jwt = require('jsonwebtoken')
-const verifyToken = require('../middlewares/verifyToken')
 const config = require('../config')
 const User = require('../db/models/User')
 const Product = require('../db/models/Product')
 
 
-router.post('/', async (req, res, next) => {
+const createToken = async (req, res, next) => {
 	try {
 		const user = await User.find({mail: req.body.mail, password: req.body.password})
 	  		.then(users => users[0])
@@ -27,15 +24,15 @@ router.post('/', async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
-})
+}
 
-router.get('/', verifyToken, async (req, res, next) => {
+const sendUserInfo = async (req, res, next) => {
 	try {
 		const products = await Product.find({creatorId: req.user.id})
 		res.send({...req.user, products})
 	} catch (err) {
 		next(err)
 	}
-})
+}
 
-module.exports = router
+module.exports = {createToken, sendUserInfo}

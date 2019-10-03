@@ -1,20 +1,9 @@
-const express = require('express')
-const router = express.Router()
 const fs = require('fs')
-const multer = require('multer')
-
-const verifyToken = require('../middlewares/verifyToken')
 const Product = require('../db/models/Product')
 
-const storage = multer.diskStorage({
-	destination: './public/images',
-	filename: function (req, file, cb) {
-		cb(null, `image_${req.params.id}`)
-	}
-})
-const upload = multer({storage: storage})
 
-router.get('/', async (req, res, next) => {
+
+const sendProducts = async (req, res, next) => {
 	try {
 		const products = await Product.find()
 		if (!products) res.status(400).send('Products is not exists')
@@ -22,9 +11,9 @@ router.get('/', async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
-})
+}
 
-router.delete('/:id', verifyToken, async (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
 	try {
 		const product = await Product.findOne({_id: req.params.id})
 		if (product.image) {
@@ -35,13 +24,13 @@ router.delete('/:id', verifyToken, async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
-})
+}
 
-router.post('/image/:id', verifyToken, upload.single('file'), (req, res) => {
+const sendImageName = (req, res) => {
 	res.send(JSON.stringify(`image_${req.params.id}`))
-})
+}
 
-router.post('/', verifyToken, (req, res, next) => {
+const createProduct = (req, res, next) => {
 	const product = new Product({
 		image: req.body.image,
 		name: req.body.name,
@@ -61,6 +50,6 @@ router.post('/', verifyToken, (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
-})
+}
 
-module.exports = router
+module.exports = {sendImageName, createProduct, deleteProduct, sendProducts}

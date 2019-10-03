@@ -3,10 +3,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
-const productsRouter = require('./routes/products')
-const loginRouter = require('./routes/login')
-const registrationRouter = require('./routes/registration')
-const imagesRouter = require('./routes/images')
+const router = require('./routes')
 const setUpConnection = require('./db/connectMongo')
 
 const app = express()
@@ -27,10 +24,7 @@ app.use(function (req, res, next) {
 	next()
 })
 
-app.use('/products', productsRouter)
-app.use('/login', loginRouter)
-app.use('/registration', registrationRouter)
-app.use('/images', imagesRouter)
+app.use('/', router)
 
 // error handler
 app.use(function (err, req, res, next) {
