@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
 		const user = new User({
 			mail: req.body.mail,
 			password: req.body.password,
-			sellerStatus: req.body.seller
+		  	sellerType: req.body.sellerType
 		})
 
 		user.save()

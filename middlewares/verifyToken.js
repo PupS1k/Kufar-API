@@ -3,7 +3,7 @@ const config = require('../config')
 
 module.exports = function (req, res, next) {
 	const bearer = req.header('Authorization').split(' ')
-  	const token = bearer[1]
+	const token = bearer[1];
 
 	if (token === null) return res.status(403).send('Access Denied')
 
@@ -13,7 +13,7 @@ module.exports = function (req, res, next) {
 			id: dataToken.id,
 			mail: dataToken.mail,
 			password: dataToken.password,
-			sellerStatus: dataToken.sellerStatus,
+		  	sellerType: dataToken.sellerType,
 		}
 		next()
 	} catch (err) {

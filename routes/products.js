@@ -26,9 +26,16 @@ const deleteProduct = async (req, res, next) => {
 	}
 }
 
-const sendImageName = (req, res) => {
+const saveImage = (req, res) => {
 	res.send(JSON.stringify(`image_${req.params.id}`))
 }
+// const saveImage = (req, res) => {
+// 	fs.writeFile(`public/images/image_${req.params.id}`, req.body.file, 'binary', (err) => {
+// 		if (err) throw err
+// 		console.log('The file has been saved!')
+// 	})
+// 	res.send(JSON.stringify(`image_${req.params.id}`))
+// }
 
 const createProduct = (req, res, next) => {
 	const product = new Product({
@@ -36,20 +43,30 @@ const createProduct = (req, res, next) => {
 		name: req.body.name,
 		categories: req.body.categories,
 		state: req.body.state,
-		seller: req.user.sellerStatus,
-		fashionableSummer: req.body.fashionableSummer,
+		sellerType: req.user.sellerType,
+		stocks: {
+			fashionableSummer: req.body.stocks.fashionableSummer
+		},
 		installmentHalva: req.body.installmentHalva,
 		isExchange: req.body.isExchange,
 		price: req.body.price,
 		location: req.body.location,
-		announced: req.body.announced,
 		creatorId: req.user.id
 	})
 	try {
-		product.save().then(product => res.send({id: product._id, seller: product.seller}))
+		product.save().then(product => res.send({id: product._id, sellerType: product.sellerType}))
 	} catch (err) {
 		next(err)
 	}
 }
 
-module.exports = {sendImageName, createProduct, deleteProduct, sendProducts}
+const getProductByCreatorId = async (req, res, next) => {
+	try {
+		const products = await Product.find({creatorId: req.user.id})
+		res.send(products)
+	} catch (err) {
+		next(err)
+	}
+}
+
+module.exports = {saveImage, createProduct, deleteProduct, sendProducts, getProductByCreatorId}

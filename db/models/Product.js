@@ -7,20 +7,22 @@ const ProductSchema = new Schema({
 	name: {type: String},
 	categories: {type: String},
 	state: {type: String},
-	seller: {type: String},
-	fashionableSummer: {type: Boolean},
+	sellerType: {type: String},
+	stocks: {
+		fashionableSummer: {type: Boolean}
+	},
 	installmentHalva: {type: Boolean},
 	isExchange: {type: Boolean},
 	price: {type: String},
 	location: {type: String},
-	announced: {type: Date, default: Date.now},
+	createDate: {type: Date, default: Date.now},
 	creatorId: {type: String}
 })
 
 ProductSchema.set('toJSON', {
 	transform: (doc, result) => {
-		const {_id: id, ...prop} = result
-		return {...prop, id}
+		const {_id: id, ...rest} = result
+		return {...rest, id}
 	}
 })
 

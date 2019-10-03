@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 const User = require('../db/models/User')
-const Product = require('../db/models/Product')
-
 
 const createToken = async (req, res, next) => {
 	try {
 		const user = await User.find({mail: req.body.mail, password: req.body.password})
 	  		.then(users => users[0])
+	  console.log(user)
 		if (!user) return res.status(400).send('Email or password is wrong')
 
 		const date = new Date()
@@ -17,7 +16,7 @@ const createToken = async (req, res, next) => {
 			id: user._id,
 			mail: user.mail,
 			password: user.password,
-			sellerStatus: user.sellerStatus,
+		  	sellerType: user.sellerType,
 			exp: Date.parse(date)
 		}, config.secretKey)
 		res.send(JSON.stringify(token))
@@ -28,8 +27,7 @@ const createToken = async (req, res, next) => {
 
 const sendUserInfo = async (req, res, next) => {
 	try {
-		const products = await Product.find({creatorId: req.user.id})
-		res.send({...req.user, products})
+		res.send({...req.user})
 	} catch (err) {
 		next(err)
 	}
