@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
 	image: {type: String},
@@ -17,13 +17,13 @@ const ProductSchema = new Schema({
 	location: {type: String},
 	createDate: {type: Date, default: Date.now},
 	creatorId: {type: String}
-})
+});
 
 ProductSchema.set('toJSON', {
 	transform: (doc, result) => {
-		const {_id: id, ...rest} = result
-		return {...rest, id}
+		const {_id: id, ...rest} = result;
+		return {...rest, id};
 	}
-})
+});
 
-module.exports = mongoose.model('Product', ProductSchema)
+module.exports = mongoose.model('Product', ProductSchema);

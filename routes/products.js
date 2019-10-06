@@ -1,34 +1,35 @@
-const fs = require('fs')
-const Product = require('../db/models/Product')
+const fs = require('fs');
+const Product = require('../db/models/Product');
 
 
 
 const sendProducts = async (req, res, next) => {
 	try {
-		const products = await Product.find()
-		if (!products) res.status(400).send('Products is not exists')
-		res.send(products)
+		const products = await Product.find();
+		if (!products) res.status(400).send('Products is not exists');
+		res.send(products);
 	} catch (err) {
-		next(err)
+		next(err);
 	}
-}
+};
 
 const deleteProduct = async (req, res, next) => {
 	try {
-		const product = await Product.findOne({_id: req.params.id})
+		const product = await Product.findOne({_id: req.params.id});
 		if (product.image) {
-		  fs.unlink(`./public/images/${product.image}`, err => console.error(err))
+		  fs.unlink(`./public/images/${product.image}`, err => console.error(err));
 		}
-		Product.deleteOne(product).then(res => console.log(res))
-		res.send({id: req.params.id})
+		Product.deleteOne(product).then(res => console.log(res));
+		res.send({id: req.params.id});
 	} catch (err) {
-		next(err)
+		next(err);
 	}
-}
+};
 
 const saveImage = (req, res) => {
-	res.send(JSON.stringify(`image_${req.params.id}`))
-}
+	// console.log(req.body)
+	res.send(JSON.stringify(`image_${req.params.id}`));
+};
 // const saveImage = (req, res) => {
 // 	fs.writeFile(`public/images/image_${req.params.id}`, req.body.file, 'binary', (err) => {
 // 		if (err) throw err
@@ -52,21 +53,21 @@ const createProduct = (req, res, next) => {
 		price: req.body.price,
 		location: req.body.location,
 		creatorId: req.user.id
-	})
+	});
 	try {
-		product.save().then(product => res.send({id: product._id, sellerType: product.sellerType}))
+		product.save().then(product => res.send({id: product._id, sellerType: product.sellerType}));
 	} catch (err) {
-		next(err)
+		next(err);
 	}
-}
+};
 
 const getProductByCreatorId = async (req, res, next) => {
 	try {
-		const products = await Product.find({creatorId: req.user.id})
-		res.send(products)
+		const products = await Product.find({creatorId: req.user.id});
+		res.send(products);
 	} catch (err) {
-		next(err)
+		next(err);
 	}
-}
+};
 
-module.exports = {saveImage, createProduct, deleteProduct, sendProducts, getProductByCreatorId}
+module.exports = {saveImage, createProduct, deleteProduct, sendProducts, getProductByCreatorId};
