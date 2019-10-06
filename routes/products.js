@@ -26,17 +26,19 @@ const deleteProduct = async (req, res, next) => {
 	}
 };
 
+// const saveImage = (req, res) => {
+// 	// console.log(req.body)
+// 	res.send(JSON.stringify(`image_${req.params.id}`));
+// };
 const saveImage = (req, res) => {
-	// console.log(req.body)
+	const photo = req.files.file;
+	photo.mv(`public/images/image_${req.params.id}`);
+	// fs.writeFile(`public/images/image_${req.params.id}`, req.body.file, 'binary', (err) => {
+	// 	if (err) throw err
+	// 	console.log('The file has been saved!')
+	// })
 	res.send(JSON.stringify(`image_${req.params.id}`));
 };
-// const saveImage = (req, res) => {
-// 	fs.writeFile(`public/images/image_${req.params.id}`, req.body.file, 'binary', (err) => {
-// 		if (err) throw err
-// 		console.log('The file has been saved!')
-// 	})
-// 	res.send(JSON.stringify(`image_${req.params.id}`))
-// }
 
 const createProduct = (req, res, next) => {
 	const product = new Product({
