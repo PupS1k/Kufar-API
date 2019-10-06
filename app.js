@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
@@ -9,6 +10,8 @@ const setUpConnection = require('./db/connectMongo');
 const app = express();
 
 setUpConnection();
+
+app.use(fileUpload({createParentPath: true}));
 
 app.use(logger('dev'));
 app.use(express.json());
