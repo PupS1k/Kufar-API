@@ -4,7 +4,7 @@ const createJWT = require('../scripts/createJWT');
 module.exports = async (req, res, next) => {
 	try {
 		const emailExist = await User.find({mail: req.body.mail});
-		if (emailExist.length) return res.send({message: 'Аккаунт с таким email уже существует'});
+		if (emailExist.length) return res.status(400).json({message: 'Аккаунт с таким email уже существует'});
 
 		const user = new User({
 		  mail: req.body.mail,
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
 
 		const token = createJWT(user);
 
-		res.send({message: '', user: token});
+		res.send(token);
 	} catch (err) {
 		next(err);
 	}
