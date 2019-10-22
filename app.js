@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client')));
 
 
-app.use('/', router);
+app.use('/api', router);
 
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname + '/client/index.html'));
