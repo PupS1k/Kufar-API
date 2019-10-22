@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 function setUpConnection() {
-	mongoose.connect('mongodb+srv://Den:tuborg99@cluster0-gt1ds.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
+	mongoose.connect('mongodb+srv://prokop:den5691@kufar-gt1ds.gcp.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 }
 
 module.exports = setUpConnection;
