@@ -4,7 +4,6 @@ const Product = require('../db/models/Product');
 
 
 const sendProducts = async (req, res, next) => {
-  console.log('tut');
 	try {
 		const products = await Product.find();
 		if (!products) res.status(400).send('Products is not exists');
