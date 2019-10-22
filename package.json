@@ -7,7 +7,7 @@
     "url": "https://github.com/PupS1k/Kufar-API"
   },
   "scripts": {
-    "start": "node bin/www"
+    "start": "node bin/www",
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
