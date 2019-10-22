@@ -25,7 +25,7 @@ app.get('/', function(req, res, next) {
 	next();
 });
 
-app.use('/api', router);
+app.use('/', router);
 
 // error handler
 app.use(function (err, req, res, next) {
