@@ -4,9 +4,7 @@
   "db": {
     "name": "kufar",
     "host": "localhost",
-    "port": 27017,
-    "username": "tuborgpro99@mail.ru",
-    "password": "tuborg99"
+    "port": 27017
   },
   "secretKey": "lmdsaf0ana"
 }
