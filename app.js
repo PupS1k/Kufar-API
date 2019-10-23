@@ -3,6 +3,7 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const browserify = require('browserify');
 
 const router = require('./routes');
 const setUpConnection = require('./db/connectMongo');
@@ -13,14 +14,16 @@ setUpConnection();
 
 app.use(fileUpload({createParentPath: true}));
 
-// app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/bundle.js'));
+app.get('/bundle.js', function(req, res) {
+	const b = browserify();
+	b.add('./client.js');
+	b.bundle().pipe(res);
 });
 
 app.use('/api', router);
