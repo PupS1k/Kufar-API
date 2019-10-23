@@ -22,6 +22,7 @@ app.use('/api', router);
 
 
 app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // error handler
 app.use(function (err, req, res, next) {
