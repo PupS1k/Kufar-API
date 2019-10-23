@@ -3,7 +3,6 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const browserify = require('browserify');
 
 const router = require('./routes');
 const setUpConnection = require('./db/connectMongo');
@@ -20,11 +19,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.get('/bundle.js', function(req, res) {
-	const b = browserify();
-	b.add('client/bundle.js');
-	b.bundle().pipe(res);
-});
 
 app.use('/api', router);
 
