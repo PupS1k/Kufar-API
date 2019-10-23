@@ -4,14 +4,13 @@ const Product = require('../db/models/Product');
 
 
 const sendProducts = async (req, res, next) => {
-	res.send([]);
-	// try {
-	// 	const products = await Product.find();
-	// 	if (!products) res.status(400).send('Products is not exists');
-	// 	res.send(products);
-	// } catch (err) {
-	// 	next(err);
-	// }
+	try {
+		const products = await Product.find();
+		if (!products) res.status(400).send('Products is not exists');
+		res.send(products);
+	} catch (err) {
+		next(err);
+	}
 };
 
 const deleteProduct = async (req, res, next) => {
