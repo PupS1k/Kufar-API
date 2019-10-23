@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 app.get('/bundle.js', function(req, res) {
 	const b = browserify();
-	b.add('./client.js');
+	b.add('client/bundle.js');
 	b.bundle().pipe(res);
 });
 
