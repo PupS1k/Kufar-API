@@ -11,7 +11,7 @@ const sendToken = async (req, res, next) => {
 
 		const token = createJWT(user);
 
-		res.send(token);
+		res.send(JSON.stringify(token));
 	} catch (err) {
 		next(err);
 	}
