@@ -2,13 +2,10 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middlewares/verifyToken');
 
-const {sendImage} = require('./images');
 const createUser = require('./registration');
 const {sendToken} = require('./login');
 const {sendProducts, deleteProduct, createProduct, saveImage, getProductByCreatorId} = require('./products');
 
-
-router.get('/images/:fileName', sendImage);
 
 router.post('/login', sendToken);
 
