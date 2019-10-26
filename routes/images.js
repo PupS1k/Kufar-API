@@ -1,12 +1,24 @@
 const Image = require('../db/models/Image');
 
-const sendImage =  async(req, res, next) => {
+const saveImage = (req, res, next) => {
+	const image = new Image({
+		body: req.files.file.data
+	});
 	try {
-		const image = await Image.findOne({_id: req.params.fileName}).then(img => img.body);
-		res.send(JSON.stringify(image));
+		image.save().then(image => res.send(JSON.stringify(image._id)));
 	} catch (err) {
 		next(err);
 	}
 };
-module.exports = {sendImage};
+
+const sendImage =  async(req, res, next) => {
+	try {
+		const image = await Image.findOne({_id: req.params.id}).then(img => img.body);
+		res.type('image/jpeg').send(image);
+	} catch (err) {
+		next(err);
+	}
+};
+
+module.exports = {sendImage, saveImage};
 

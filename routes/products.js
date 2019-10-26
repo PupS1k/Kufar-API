@@ -2,8 +2,6 @@ const fs = require('fs');
 const Product = require('../db/models/Product');
 const Image = require('../db/models/Image');
 
-
-
 const sendProducts = async (req, res, next) => {
 	try {
 		const products = await Product.find();
@@ -18,21 +16,10 @@ const deleteProduct = async (req, res, next) => {
 	try {
 		const product = await Product.findOne({_id: req.params.id});
 		if (product.image) {
-		  fs.unlink(`./public/images/${product.image}`, err => console.error(err));
+		  Image.deleteOne({_id: product.image}).then(res => console.log(res));
 		}
 		Product.deleteOne(product).then(res => console.log(res));
 		res.send({id: req.params.id});
-	} catch (err) {
-		next(err);
-	}
-};
-
-const saveImage = (req, res, next) => {
-	const image = new Image({
-		body: `url('data:image/jpeg;base64,${req.files.file.data.toString('base64')}')`
-	});
-	try {
-		image.save().then(image => res.send(JSON.stringify(image._id)));
 	} catch (err) {
 		next(err);
 	}
@@ -70,4 +57,4 @@ const getProductByCreatorId = async (req, res, next) => {
 	}
 };
 
-module.exports = {saveImage, createProduct, deleteProduct, sendProducts, getProductByCreatorId};
+module.exports = {createProduct, deleteProduct, sendProducts, getProductByCreatorId};
