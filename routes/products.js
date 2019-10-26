@@ -39,9 +39,8 @@ const saveImage = (req, res, next) => {
 };
 
 const createProduct = async (req, res, next) => {
-	const image = await Image.findOne({_id: req.body.image});
 	const product = new Product({
-		image: image.body,
+		image: req.body.image,
 		name: req.body.name,
 		categories: req.body.categories,
 		state: req.body.state,
